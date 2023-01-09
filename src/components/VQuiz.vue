@@ -1,7 +1,7 @@
 <template>
   <div class="quiz">
     <div class="content">
-      <div class="circle" :class="{ animation: isAnime }">
+      <div class="circle" :class="{ animation: isSlide }">
         <span style="--i: 1"><div class="one">1</div></span>
         <span style="--i: 2"><div class="two">2</div></span>
         <span style="--i: 3"><div class="three">3</div></span>
@@ -9,11 +9,15 @@
         <span style="--i: 5"><div class="five">5</div></span>
         <span style="--i: 6"><div class="six">6</div></span>
         <span style="--i: 7"><div class="seven">7</div></span>
-        <span style="--i: 8"><div class="eight">8</div></span>
+        <span style="--i: 8"><div class="sub">解説</div></span>
+        <span style="--i: 8"
+          ><div class="main" :class="{ animationOpen: isTurn }">問題</div></span
+        >
       </div>
     </div>
 
-    <button @click="doAnime">a</button>
+    <button @click="doAnime(600)">次の問題</button>
+    <button @click="doAnime(3000)">解説</button>
   </div>
 </template>
 
@@ -31,23 +35,26 @@ export default defineComponent({
     // // state.age = "a";
     // return { ...toRefs(state) };
     const state: {
-      isAnime: boolean;
+      isSlide: boolean;
+      isTurn: boolean;
       interval: number | null;
     } = reactive({
-      isAnime: false,
+      isSlide: false,
+      isTurn: false,
       interval: null,
     });
 
-    const doAnime = () => {
-      if (state.isAnime == true || state.interval !== null) {
+    const doAnime = (second: 600 | 3000) => {
+      if (state.isSlide == true || state.interval !== null) {
         return;
       }
-      state.isAnime = true;
+      second == 600 ? (state.isSlide = true) : (state.isTurn = true);
       state.interval = setInterval(() => {
-        state.isAnime = false;
+        state.isSlide = false;
         clearInterval(state.interval as number);
         state.interval = null;
-      }, 1000);
+      }, second);
+      second == 600 && (state.isTurn = false);
     };
     return { ...toRefs(state), doAnime };
   },
@@ -56,6 +63,7 @@ export default defineComponent({
 
 <style lang="scss">
 @import "../assets/scss/_function";
+
 @keyframes animate {
   0% {
     transform: perspective(1000px) rotateY(0deg);
@@ -64,23 +72,35 @@ export default defineComponent({
     transform: perspective(1000px) rotateY(-45deg);
   }
 }
+@keyframes animate2 {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(350deg);
+  }
+}
 .quiz {
   .content {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100%;
     .animation {
       animation: animate 0.5s linear;
     }
     .circle {
       position: relative;
-      width: 350px;
+      width: 40%;
       height: 280px;
       transform-style: preserve-3d;
       transform: perspective(1000px) rotateY(0deg);
-
+      @include mq(tb) {
+        width: 400px;
+      }
       span {
+        width: 100%;
         position: absolute;
         top: 0;
         left: 0;
@@ -116,7 +136,15 @@ export default defineComponent({
       .seven {
         background: white;
       }
-      .eight {
+      .animationOpen {
+        animation: animate2 3s;
+        transform-origin: top;
+        animation-fill-mode: forwards;
+      }
+      .main {
+        background: white;
+      }
+      .sub {
         background: white;
       }
     }
