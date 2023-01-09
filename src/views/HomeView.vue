@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue";
 import { defineComponent, reactive, toRefs, ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -31,23 +30,14 @@ export default defineComponent({
 .home {
   .title {
     text-align: center;
-    font-family: "ZenMaru";
+    font-family: "ZenMaru-medium";
   }
   .button {
-    background-color: white;
-    box-shadow: 0 5px 0 rgb(76, 76, 76);
     position: absolute;
     bottom: 50px;
-    right: 100px;
-    width: 300px;
-    height: 50px;
-    border-radius: 50px;
-    font-size: larger;
-    font-family: "ZenMaru";
-    &:active {
-      box-shadow: none;
-      transform: translateY(5px);
-    }
+    right: 5vh;
+
+    @include buttonCenter(50px, 300px, large);
   }
 }
 </style>

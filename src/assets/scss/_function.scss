@@ -1,7 +1,8 @@
 @import "./_variable";
 @mixin flexCenter {
-  color: red;
-  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin mq($breakpoint: md, $rule: min, $subtraction: false) {
@@ -13,5 +14,19 @@
 
   @media screen and (#{$rule}-width: $breakpoint) {
     @content;
+  }
+}
+
+@mixin buttonCenter($height, $width, $fontSize) {
+  background-color: white;
+  box-shadow: 0 2px 0 rgb(54, 54, 54);
+  height: $height;
+  width: $width;
+  border-radius: 50px;
+  font-size: $fontSize;
+  font-family: "ZenMaru-medium";
+  &:active {
+    box-shadow: none;
+    transform: translateY(5px);
   }
 }
