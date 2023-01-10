@@ -3,6 +3,7 @@
     <div class="content">
       <div class="circle" :class="{ animation: isSlide }">
         <div class="slide" v-for="n in 7" :key="n" :style="{ '--i': n }">
+          <span class="test"></span>
           <div class="sub">
             <img
               class="image"
@@ -37,25 +38,47 @@
                   v-for="(choice, index) in data[questionCount].choice"
                   :key="index"
                 >
-                  <button class="choice-button" v-if="index === 0">ア</button>
-                  <button class="choice-button" v-else-if="index === 1">
+                  <button
+                    class="choice-button"
+                    @click="checkTheAnswer(index)"
+                    v-if="index === 0"
+                  >
+                    ア
+                  </button>
+                  <button
+                    class="choice-button"
+                    @click="checkTheAnswer(index)"
+                    v-else-if="index === 1"
+                  >
                     イ
                   </button>
-                  <button class="choice-button" v-else-if="index === 2">
+                  <button
+                    class="choice-button"
+                    @click="checkTheAnswer(index)"
+                    v-else-if="index === 2"
+                  >
                     ウ
                   </button>
-                  <button class="choice-button" v-else>エ</button>
+                  <button
+                    class="choice-button"
+                    @click="checkTheAnswer(index)"
+                    v-else
+                  >
+                    エ
+                  </button>
                   <h2 class="choice-text">{{ choice }}</h2>
                 </div>
               </div>
             </div>
-            <div class="button-wrapper">
-              <button class="button" @click="doAnime(2000)">解説</button>
+            <div class="button-wrapper" :class="{ opacity: !isSelected }">
+              <button class="button" @click="isSelected && doAnime(2000)">
+                解説
+              </button>
               <button
                 class="button"
                 @click="
-                  doAnime(700);
-                  nextPage();
+                  isSelected && doAnime(700);
+                  isSelected && nextPage();
                 "
               >
                 次の問題
@@ -73,22 +96,30 @@ import { defineComponent, reactive, toRefs, ref } from "vue";
 import dummydata from "@/assets/dummyData.json";
 import Dummydata from "@/dummydata";
 import { useRouter } from "vue-router";
+
 export default defineComponent({
   setup() {
     const state: {
       isSlide: boolean;
       isTurn: boolean;
+      isSelected: boolean;
       interval: number | null;
       data: Dummydata[];
       questionCount: number;
+      showCorrect: boolean;
+      showInorrect: boolean;
     } = reactive({
       isSlide: false,
       isTurn: false,
+      isSelected: false,
       interval: null,
       data: dummydata,
       questionCount: 0,
+      showCorrect: false,
+      showInorrect: false,
     });
     const router = useRouter();
+
     const doAnime = (second: 700 | 2000) => {
       if (state.isSlide == true || state.interval !== null) {
         return;
@@ -109,9 +140,19 @@ export default defineComponent({
         state.questionCount += 1;
         console.log(state.questionCount);
       }
+      state.isSelected = false;
     };
 
-    const checkTheAnswer = () => {
+    const checkTheAnswer = (index: number) => {
+      if (
+        state.data[state.questionCount].choice[index] ==
+        state.data[state.questionCount].answer
+      ) {
+        console.log("正解");
+      } else {
+        console.log("不正解");
+      }
+      state.isSelected = true;
       return;
     };
 
@@ -126,19 +167,19 @@ export default defineComponent({
 //左に45度回転
 @keyframes animate45 {
   0% {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(1100px) rotateY(0deg);
   }
   100% {
-    transform: perspective(1000px) rotateY(-45deg);
+    transform: perspective(1100px) rotateY(-45deg);
   }
 }
 //左に90度回転
 @keyframes animate90 {
   0% {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(1100px) rotateY(0deg);
   }
   100% {
-    transform: perspective(1000px) rotateY(-90deg);
+    transform: perspective(1100px) rotateY(-90deg);
   }
 }
 //後ろから目に1回転
@@ -159,6 +200,7 @@ export default defineComponent({
     align-items: center;
     height: 100vh;
     width: 100%;
+
     .animation {
       animation: animate90 0.5s;
       @include mq(md) {
@@ -166,11 +208,12 @@ export default defineComponent({
       }
     }
     .circle {
+      background-color: white;
       position: relative;
       width: 40%;
       height: 280px;
       transform-style: preserve-3d; //3d
-      transform: perspective(1000px); //要素と画面の距離(手前)
+      transform: perspective(1100px); //要素と画面の距離(手前)
       @include mq(sm) {
         width: 40%;
       }
@@ -192,6 +235,7 @@ export default defineComponent({
         @include mq(md) {
           transform: rotateY(calc(var(--i) * 45deg)) translateZ(550px);
         }
+
         .sub {
           width: 100%;
           height: 100%;
@@ -274,7 +318,6 @@ export default defineComponent({
               .choice {
                 width: 50%;
                 display: flex;
-
                 @include mq(tb) {
                   font-size: x-small;
                 }
@@ -317,6 +360,9 @@ export default defineComponent({
             }
           }
         }
+      }
+      .opacity {
+        opacity: 0.2;
       }
       .animationOpen {
         animation: animate359 3s;
