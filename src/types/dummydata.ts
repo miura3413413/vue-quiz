@@ -4,5 +4,6 @@ interface Dummydata {
   count: number,
   choice: string[],
   answer: string,
+  explanation: string
 }[];
 export default Dummydata

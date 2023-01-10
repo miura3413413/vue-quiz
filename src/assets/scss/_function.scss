@@ -30,3 +30,14 @@
     transform: translateY(5px);
   }
 }
+
+@mixin titleCenter {
+  font-family: "ZenMaru-light";
+  font-size: medium;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  height: 9%;
+  position: relative;
+}

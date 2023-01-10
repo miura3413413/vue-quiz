@@ -14,6 +14,7 @@
         <div class="slide" style="--i: 8">
           <div class="back" :class="{ animationOpen: isTurn }">
             <h2 class="title">解説</h2>
+            <h2 class="text">{{ data[3].explanation }}</h2>
             <button class="button" @click="doAnime(700)">次の問題</button>
           </div>
         </div>
@@ -62,13 +63,11 @@ export default defineComponent({
       isTurn: boolean;
       interval: number | null;
       data: Dummydata[];
-      divCount: number;
     } = reactive({
       isSlide: false,
       isTurn: false,
       interval: null,
       data: dummydata,
-      divCount: 0,
     });
 
     const doAnime = (second: 700 | 2000) => {
@@ -84,13 +83,7 @@ export default defineComponent({
       second == 700 && (state.isTurn = false);
     };
 
-    const style = () => {
-      state.divCount += 1;
-      console.log(state.divCount);
-      return { "--i": state.divCount + 1 };
-    };
-
-    return { ...toRefs(state), doAnime, style };
+    return { ...toRefs(state), doAnime };
   },
 });
 </script>
@@ -172,12 +165,48 @@ export default defineComponent({
           border: 1px solid;
           @include flexCenter;
           background-color: white;
-
           .image {
             width: 50%;
             height: 50%;
             backface-visibility: visible;
             object-fit: contain;
+          }
+        }
+        .back {
+          width: 100%;
+          height: 100%;
+          background: white;
+          height: 100%;
+          position: relative;
+          border: 1px solid;
+          .title {
+            @include titleCenter;
+          }
+          .text {
+            position: relative;
+            font-size: 1vh;
+            margin: 0;
+            padding: 0 6px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 15; /* 制限したい行数が3の場合 */
+            overflow: hidden;
+          }
+          .button {
+            @include buttonCenter(23px, 100px, xx-small);
+            pointer-events: auto;
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            margin-left: -50px; //ボタンのwidth/2
+          }
+          h2 {
+            position: absolute;
+            font-family: "ZenMaru-light";
+            font-size: medium;
+            top: 0;
+            margin: 0;
+            text-align: center;
           }
         }
         .main {
@@ -187,14 +216,8 @@ export default defineComponent({
           background: white;
           height: 100%;
           position: relative;
-          h2 {
-            font-family: "ZenMaru-light";
-            font-size: medium;
-            left: 0;
-            right: 0;
-            margin: auto;
-            text-align: center;
-            height: 9%;
+          .title {
+            @include titleCenter;
           }
           .sentence-wrapper {
             position: relative;
@@ -217,6 +240,7 @@ export default defineComponent({
               .choice {
                 width: 50%;
                 display: flex;
+
                 @include mq(tb) {
                   font-size: x-small;
                 }
@@ -226,10 +250,13 @@ export default defineComponent({
                   border-radius: 50%;
                   pointer-events: auto;
                   font-size: 1vh;
-                  text-align: center;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
                   font-weight: bold;
+                  background-color: white;
                   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
-                  border: none;
+                  border: 1px solid;
                   transition: 0.2s;
                   &:active {
                     transform: translateY(2px);
@@ -260,29 +287,6 @@ export default defineComponent({
         animation: animate359 3s;
         transform-origin: top;
         animation-fill-mode: forwards; // 最後の状態
-      }
-      .back {
-        width: 100%;
-        height: 100%;
-        background: white;
-        height: 100%;
-        position: relative;
-        border: 1px solid;
-        .button {
-          @include buttonCenter(23px, 100px, xx-small);
-          transform: translateY();
-          pointer-events: auto;
-          position: absolute;
-          bottom: 4px;
-        }
-        h2 {
-          position: absolute;
-          font-family: "ZenMaru-light";
-          font-size: medium;
-          top: 0;
-          margin: 0;
-          text-align: center;
-        }
       }
     }
   }
