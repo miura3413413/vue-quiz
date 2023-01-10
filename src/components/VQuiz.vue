@@ -14,19 +14,27 @@
         <div class="slide" style="--i: 8">
           <div class="back" :class="{ animationOpen: isTurn }">
             <h2 class="title">解説</h2>
-            <h2 class="text">{{ data[3].explanation }}</h2>
-            <button class="button" @click="doAnime(700)">次の問題</button>
+            <h2 class="text">{{ data[questionCount].explanation }}</h2>
+            <button
+              class="button"
+              @click="
+                doAnime(700);
+                nextPage();
+              "
+            >
+              次の問題
+            </button>
           </div>
         </div>
         <div class="slide" style="--i: 8">
           <div class="main">
-            <h2 class="title">問題</h2>
+            <h2 class="title">問題{{ questionCount + 1 }}</h2>
             <div class="sentence-wrapper">
-              <h2 class="text">{{ data[4].text }}</h2>
+              <h2 class="text">{{ data[questionCount].text }}</h2>
               <div class="choice-wrapper">
                 <div
                   class="choice"
-                  v-for="(choice, index) in data[1].choice"
+                  v-for="(choice, index) in data[questionCount].choice"
                   :key="index"
                 >
                   <button class="choice-button" v-if="index === 0">ア</button>
@@ -43,7 +51,15 @@
             </div>
             <div class="button-wrapper">
               <button class="button" @click="doAnime(2000)">解説</button>
-              <button class="button" @click="doAnime(700)">次の問題</button>
+              <button
+                class="button"
+                @click="
+                  doAnime(700);
+                  nextPage();
+                "
+              >
+                次の問題
+              </button>
             </div>
           </div>
         </div>
@@ -56,6 +72,7 @@
 import { defineComponent, reactive, toRefs, ref } from "vue";
 import dummydata from "@/assets/dummyData.json";
 import Dummydata from "@/dummydata";
+import { useRouter } from "vue-router";
 export default defineComponent({
   setup() {
     const state: {
@@ -63,13 +80,15 @@ export default defineComponent({
       isTurn: boolean;
       interval: number | null;
       data: Dummydata[];
+      questionCount: number;
     } = reactive({
       isSlide: false,
       isTurn: false,
       interval: null,
       data: dummydata,
+      questionCount: 0,
     });
-
+    const router = useRouter();
     const doAnime = (second: 700 | 2000) => {
       if (state.isSlide == true || state.interval !== null) {
         return;
@@ -83,7 +102,20 @@ export default defineComponent({
       second == 700 && (state.isTurn = false);
     };
 
-    return { ...toRefs(state), doAnime };
+    const nextPage = () => {
+      if (state.questionCount == state.data.length - 1) {
+        router.push("/");
+      } else {
+        state.questionCount += 1;
+        console.log(state.questionCount);
+      }
+    };
+
+    const checkTheAnswer = () => {
+      return;
+    };
+
+    return { ...toRefs(state), doAnime, nextPage, checkTheAnswer };
   },
 });
 </script>
@@ -145,6 +177,7 @@ export default defineComponent({
       @include mq(md) {
         width: 400px;
       }
+
       .slide {
         width: 100%;
         position: absolute;
@@ -216,6 +249,7 @@ export default defineComponent({
           background: white;
           height: 100%;
           position: relative;
+
           .title {
             @include titleCenter;
           }
@@ -258,6 +292,7 @@ export default defineComponent({
                   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
                   border: 1px solid;
                   transition: 0.2s;
+                  cursor: pointer;
                   &:active {
                     transform: translateY(2px);
                     box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
