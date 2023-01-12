@@ -40,33 +40,35 @@
                 >
                   <button
                     class="choice-button"
-                    @click="checkTheAnswer(index)"
+                    @click="isSelected || checkTheAnswer(index)"
                     v-if="index === 0"
                   >
                     ア
                   </button>
                   <button
                     class="choice-button"
-                    @click="checkTheAnswer(index)"
+                    @click="isSelected || checkTheAnswer(index)"
                     v-else-if="index === 1"
                   >
                     イ
                   </button>
                   <button
                     class="choice-button"
-                    @click="checkTheAnswer(index)"
+                    @click="isSelected || checkTheAnswer(index)"
                     v-else-if="index === 2"
                   >
                     ウ
                   </button>
                   <button
                     class="choice-button"
-                    @click="checkTheAnswer(index)"
+                    @click="isSelected || checkTheAnswer(index)"
                     v-else
                   >
                     エ
                   </button>
                   <h2 class="choice-text">{{ choice }}</h2>
+                  <div v-if="isCollect == index" class="collect"></div>
+                  <VIcon v-else-if="isCollect < 4"></VIcon>
                 </div>
               </div>
             </div>
@@ -93,11 +95,13 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref } from "vue";
-import dummydata from "@/assets/dummyData.json";
+import dummydata from "@/assets/data/dummyData.json";
 import Dummydata from "@/dummydata";
 import { useRouter } from "vue-router";
+import VIcon from "@/components/VIcon.vue";
 
 export default defineComponent({
+  components: { VIcon },
   setup() {
     const state: {
       isSlide: boolean;
@@ -106,8 +110,7 @@ export default defineComponent({
       interval: number | null;
       data: Dummydata[];
       questionCount: number;
-      showCorrect: boolean;
-      showInorrect: boolean;
+      isCollect: number;
     } = reactive({
       isSlide: false,
       isTurn: false,
@@ -115,8 +118,7 @@ export default defineComponent({
       interval: null,
       data: dummydata,
       questionCount: 0,
-      showCorrect: false,
-      showInorrect: false,
+      isCollect: 4,
     });
     const router = useRouter();
 
@@ -125,11 +127,11 @@ export default defineComponent({
         return;
       }
       second == 700 ? (state.isSlide = true) : (state.isTurn = true);
-      state.interval = setInterval(() => {
+      state.interval = setTimeout(() => {
         state.isSlide = false;
         clearInterval(state.interval as number);
         state.interval = null;
-      }, second);
+      }, second); //アニメーションを待つ
       second == 700 && (state.isTurn = false);
     };
 
@@ -141,6 +143,7 @@ export default defineComponent({
         console.log(state.questionCount);
       }
       state.isSelected = false;
+      state.isCollect = 4;
     };
 
     const checkTheAnswer = (index: number) => {
@@ -152,7 +155,14 @@ export default defineComponent({
       } else {
         console.log("不正解");
       }
-      state.isSelected = true;
+
+      const collectIndex = state.data[state.questionCount].choice.indexOf(
+        state.data[state.questionCount].answer
+      );
+      state.isCollect = collectIndex;
+      setTimeout(() => {
+        state.isSelected = true;
+      }, 1000); //アニメーションを待つ
       return;
     };
 
@@ -191,6 +201,7 @@ export default defineComponent({
     transform: rotateX(-359deg);
   }
 }
+
 .quiz {
   height: 100%;
   width: 100%;
@@ -255,7 +266,9 @@ export default defineComponent({
           background: white;
           height: 100%;
           position: relative;
+
           border: 1px solid;
+
           .title {
             @include titleCenter;
           }
@@ -318,6 +331,7 @@ export default defineComponent({
               .choice {
                 width: 50%;
                 display: flex;
+                position: relative;
                 @include mq(tb) {
                   font-size: x-small;
                 }
@@ -344,6 +358,15 @@ export default defineComponent({
                 .choice-text {
                   font-size: 1vh;
                   margin: 0;
+                }
+                .collect {
+                  position: absolute;
+                  width: 25px;
+                  height: 25px;
+                  top: -3px;
+                  left: -4px;
+                  border-radius: 50%;
+                  border: 1px solid red;
                 }
               }
             }

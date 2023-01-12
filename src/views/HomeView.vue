@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <h1 class="title">応用情報技術者試験対策</h1>
-    <button class="button" @click="home">スタート</button>
+    <button @click="route('login')">ログイン</button>
+    <button class="button" @click="route('quiz')">スタート</button>
   </div>
 </template>
 
@@ -13,11 +14,11 @@ export default defineComponent({
   components: {},
   setup() {
     const router = useRouter();
-    const home = () => {
-      router.push("/quiz");
+    const route = (destination: string) => {
+      router.push(`/${destination}`);
     };
     return {
-      home,
+      route,
     };
   },
 });
