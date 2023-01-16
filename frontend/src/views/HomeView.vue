@@ -1,44 +1,36 @@
 <template>
-  <div class="home">
-    <h1 class="title">応用情報技術者試験対策</h1>
-    <button @click="route('login')">ログイン</button>
-    <button class="button" @click="route('quiz')">スタート</button>
-  </div>
+  <VDefaultPage v-if="id == 0"></VDefaultPage>
+  <VUserPage v-else></VUserPage>
 </template>
-
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useRouter } from "vue-router";
-
+import { defineComponent, reactive, toRefs } from "vue";
+import VDefaultPage from "@/components/VDefaultPage.vue";
+import VUserPage from "@/components/VUserPage.vue";
+import { useStore } from "vuex";
 export default defineComponent({
-  components: {},
+  components: { VDefaultPage, VUserPage },
+
   setup() {
-    const router = useRouter();
-    const route = (destination: string) => {
-      router.push(`/${destination}`);
-    };
-    return {
-      route,
-    };
+    const store = useStore();
+    const state: {
+      id: number;
+      name: string;
+    } = reactive({
+      id: store.getters.getProperty.id,
+      name: store.getters.getProperty.name,
+    });
+    return { ...toRefs(state) };
   },
 });
 </script>
 
 <style lang="scss">
-@import "../assets/scss/_font";
-@import "../assets/scss/_function";
-
-.home {
-  .title {
-    text-align: center;
-    font-family: "ZenMaru-medium";
-  }
-  .button {
-    position: absolute;
-    bottom: 50px;
-    right: 5vh;
-
-    @include buttonCenter(50px, 300px, large);
-  }
+body {
+  margin: 0;
+  background-image: url(../assets/image/99-998560_question-mark-background-vector-question-mark-quiz-background.jpeg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
 }
 </style>

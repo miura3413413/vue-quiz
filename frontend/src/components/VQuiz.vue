@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="slide" style="--i: 8">
-          <div class="main">
+          <div class="main" :class="{ test: isTurn }">
             <h2 class="title">問題{{ questionCount + 1 }}</h2>
             <div class="sentence-wrapper">
               <h2 class="text">{{ data[questionCount].text }}</h2>
@@ -77,6 +77,17 @@
                 解説
               </button>
               <button
+                v-if="questionCount == 4"
+                class="button"
+                @click="
+                  isSelected && doAnime(700);
+                  isSelected && nextPage();
+                "
+              >
+                ホームに戻る
+              </button>
+              <button
+                v-else
                 class="button"
                 @click="
                   isSelected && doAnime(700);
@@ -111,6 +122,9 @@ export default defineComponent({
       data: Dummydata[];
       questionCount: number;
       isCollect: number;
+      blur: string;
+      correctQuestion: number[];
+      incorrectQuestion: number[];
     } = reactive({
       isSlide: false,
       isTurn: false,
@@ -119,6 +133,9 @@ export default defineComponent({
       data: dummydata,
       questionCount: 0,
       isCollect: 4,
+      blur: "blur(20px)",
+      correctQuestion: [],
+      incorrectQuestion: [],
     });
     const router = useRouter();
 
@@ -126,6 +143,7 @@ export default defineComponent({
       if (state.isSlide == true || state.interval !== null) {
         return;
       }
+      //700秒は次の問題2000秒は解説
       second == 700 ? (state.isSlide = true) : (state.isTurn = true);
       state.interval = setTimeout(() => {
         state.isSlide = false;
@@ -133,6 +151,7 @@ export default defineComponent({
         state.interval = null;
       }, second); //アニメーションを待つ
       second == 700 && (state.isTurn = false);
+      state.blur = "blur(0px)";
     };
 
     const nextPage = () => {
@@ -140,10 +159,11 @@ export default defineComponent({
         router.push("/");
       } else {
         state.questionCount += 1;
-        console.log(state.questionCount);
       }
+      //初期化
       state.isSelected = false;
       state.isCollect = 4;
+      state.blur = "blur(20px)";
     };
 
     const checkTheAnswer = (index: number) => {
@@ -151,11 +171,16 @@ export default defineComponent({
         state.data[state.questionCount].choice[index] ==
         state.data[state.questionCount].answer
       ) {
+        //正解
         console.log("正解");
+        state.correctQuestion.push(state.data[state.questionCount].id);
       } else {
-        console.log("不正解");
+        //不正解
+        console.log("ふ正解");
+        state.incorrectQuestion.push(state.data[state.questionCount].id);
       }
-
+      console.log(state.correctQuestion);
+      console.log(state.incorrectQuestion);
       const collectIndex = state.data[state.questionCount].choice.indexOf(
         state.data[state.questionCount].answer
       );
@@ -204,8 +229,8 @@ export default defineComponent({
 body {
   margin: 0;
   .quiz {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    min-height: 600px;
     background-image: url(../assets/image/hatena37-.png);
     background-position: center center;
     background-repeat: no-repeat;
@@ -214,7 +239,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100%;
       width: 100%;
       .animation {
         animation: animate90 0.5s;
@@ -244,7 +269,7 @@ body {
           transform-origin: center;
           transform-style: preserve-3d;
           pointer-events: none;
-          transform: rotateY(calc(var(--i) * 90deg)) translateZ(500px); //初期位置 translateZは親要素からの距離(奥)
+          transform: rotateY(calc(var(--i) * 90deg)) translateZ(400px); //初期位置 translateZは親要素からの距離(奥)
           @include mq(md) {
             transform: rotateY(calc(var(--i) * 45deg)) translateZ(550px);
           }
@@ -255,6 +280,13 @@ body {
             border: 1px solid;
             @include flexCenter;
             background-color: white;
+            border-radius: 10px;
+            backdrop-filter: blur(20px);
+            background-color: rgba(0, 191, 255, 0.419);
+            box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+            border: 2px rgba(255, 255, 255, 0.4) solid;
+            border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
+            border-right: 2px rgba(40, 40, 40, 0.35) solid;
             .image {
               width: 50%;
               height: 50%;
@@ -268,9 +300,13 @@ body {
             background: white;
             height: 100%;
             position: relative;
-
             border: 1px solid;
-
+            border-radius: 10px;
+            background-color: rgba(255, 249, 243, 0.419);
+            box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+            border: 2px rgba(255, 255, 255, 0.4) solid;
+            border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
+            border-right: 2px rgba(40, 40, 40, 0.35) solid;
             .title {
               @include titleCenter;
             }
@@ -285,7 +321,7 @@ body {
               overflow: hidden;
             }
             .button {
-              @include buttonCenter(23px, 100px, xx-small);
+              @include quizButtonCenter(23px, 100px, xx-small);
               pointer-events: auto;
               position: absolute;
               bottom: 4px;
@@ -294,7 +330,6 @@ body {
             }
             h2 {
               position: absolute;
-              font-family: "ZenMaru-light";
               font-size: medium;
               top: 0;
               margin: 0;
@@ -308,7 +343,13 @@ body {
             background: white;
             height: 100%;
             position: relative;
-
+            border-radius: 10px;
+            backdrop-filter: v-bind(blur);
+            background-color: rgba(0, 191, 255, 0.419);
+            box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+            border: 2px rgba(255, 255, 255, 0.4) solid;
+            border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
+            border-right: 2px rgba(40, 40, 40, 0.35) solid;
             .title {
               @include titleCenter;
             }
@@ -334,9 +375,6 @@ body {
                   width: 50%;
                   display: flex;
                   position: relative;
-                  @include mq(tb) {
-                    font-size: x-small;
-                  }
                   .choice-button {
                     width: 20px;
                     height: 20px;
@@ -365,10 +403,10 @@ body {
                     position: absolute;
                     width: 25px;
                     height: 25px;
-                    top: -3px;
-                    left: -4px;
+                    top: -4px;
+                    left: -5px;
                     border-radius: 50%;
-                    border: 1px solid red;
+                    border: 2px solid red;
                   }
                 }
               }
@@ -380,7 +418,7 @@ body {
               display: flex;
               justify-content: center;
               .button {
-                @include buttonCenter(23px, 90px, xx-small);
+                @include quizButtonCenter(23px, 90px, xx-small);
                 pointer-events: auto;
               }
             }
@@ -393,6 +431,7 @@ body {
           animation: animate359 3s;
           transform-origin: top;
           animation-fill-mode: forwards; // 最後の状態
+          backdrop-filter: blur(10px);
         }
       }
     }

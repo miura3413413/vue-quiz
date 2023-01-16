@@ -17,13 +17,32 @@
   }
 }
 
-@mixin buttonCenter($height, $width, $fontSize) {
+@mixin quizButtonCenter($height, $width, $fontSize) {
   background-color: white;
   box-shadow: 0 2px 0 rgb(54, 54, 54);
   height: $height;
   width: $width;
   border-radius: 50px;
+  border: none;
   font-size: $fontSize;
+  cursor: pointer;
+  font-family: "ZenMaru-medium";
+  &:active {
+    box-shadow: none;
+    transform: translateY(5px);
+  }
+}
+
+@mixin homeButtonCenter($color) {
+  background-color: $color;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 0 rgb(54, 54, 54);
+  width: 80%;
+  height: 80px;
+  border-radius: 50px;
+  border: none;
+  font-size: x-large;
+  font-weight: bold;
   cursor: pointer;
   font-family: "ZenMaru-medium";
   &:active {

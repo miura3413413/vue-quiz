@@ -1,8 +1,12 @@
 <template>
   <div class="login">
     <div class="box">
-      <h2>ログイン</h2>
-      <form @submit.prevent="login">
+      <h2>登録</h2>
+      <form @submit.prevent="register">
+        <div class="input-box">
+          <input type="text" name="" required="true" v-model="name" />
+          <label>名前</label>
+        </div>
         <div class="input-box">
           <input type="text" name="" required="true" v-model="email" />
           <label>メールアドレス</label>
@@ -11,9 +15,9 @@
           <input type="password" name="" required="true" v-model="password" />
           <label>パスワード</label>
         </div>
-        <a href="/register">登録はこちら</a>
+        <a href="login">ログインはこちら</a>
         <h1 v-if="errorMessage">{{ errorMessage }}</h1>
-        <button type="submit" name="">ログイン</button>
+        <button type="submit" name="">登録</button>
       </form>
     </div>
   </div>
@@ -29,31 +33,43 @@ export default defineComponent({
     const state: {
       email: string;
       password: string;
+      name: string;
       errorMessage: string;
     } = reactive({
       email: "",
       password: "",
+      name: "",
       errorMessage: "",
     });
     const router = useRouter();
     const store = useStore();
-    const login = () => {
+    const register = () => {
       axios
-        .post("http://localhost:3000/api/auth/login", {
+        .post("http://localhost:3000/api/auth/register", {
+          name: state.name,
           email: state.email,
           password: state.password,
         })
-        .then((response) => {
-          console.log(response);
-          store.commit("setUser", response.data);
-          router.push("/");
+        .then(() => {
+          axios
+            .post("http://localhost:3000/api/auth/login", {
+              email: state.email,
+              password: state.password,
+            })
+            .then((response) => {
+              store.commit("setUser", response.data);
+              router.push("/");
+            })
+            .catch((err) => {
+              state.errorMessage = err.response.data;
+            });
         })
         .catch((err) => {
           state.errorMessage = err.response.data;
         });
       return;
     };
-    return { ...toRefs(state), login };
+    return { ...toRefs(state), register };
   },
 });
 </script>

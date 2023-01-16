@@ -1,0 +1,140 @@
+<template>
+  <div class="home">
+    <h1 class="title">応用情報技術者試験対策</h1>
+    <div class="main">
+      <div class="text-content">
+        <h1 class="main-text">複数回出た問題だけ出題</h1>
+        <h1 class="sub-text">ログインするとデータを集計</h1>
+      </div>
+      <div class="image-content">
+        <img class="first-image" src="../assets/image/問題.png" alt="" />
+        <img class="second-image" src="../assets/image/解説.png" alt="" />
+      </div>
+    </div>
+    <div class="button-content">
+      <div class="auth-button">
+        <button class="login-button" @click="route('login')">ログイン</button>
+        <button class="register-button" @click="route('register')">登録</button>
+      </div>
+
+      <button class="start-button" @click="route('quiz')">スタート</button>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
+
+export default defineComponent({
+  components: {},
+  setup() {
+    const router = useRouter();
+    const route = (destination: string) => {
+      router.push(`/${destination}`);
+    };
+    return {
+      route,
+    };
+  },
+});
+</script>
+
+<style lang="scss">
+@import "../assets/scss/_font";
+@import "../assets/scss/_function";
+
+.home {
+  .title {
+    text-align: center;
+    font-family: "ZenMaru-medium";
+    margin: 10px;
+    font-weight: bolder;
+    font-size: 40px;
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    @include mq(md) {
+      flex-direction: row;
+    }
+    .text-content {
+      width: auto;
+      padding: 30px;
+      margin: 10px 5px 100px 5px;
+      box-sizing: border-box;
+      backdrop-filter: blur(20px);
+      background-color: rgba(207, 234, 240, 0.3);
+      border-radius: 100px;
+      @include mq(md) {
+        width: 40%;
+      }
+      .main-text {
+        font-size: 50px;
+      }
+      .sub-text {
+        font-size: x-large;
+      }
+    }
+    .image-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+
+      @include mq(md) {
+        width: 60%;
+      }
+      @include mq(sm) {
+        flex-direction: row;
+      }
+      .first-image {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        @include mq(md) {
+          width: 0;
+        }
+        @include mq(sm) {
+          width: 50%;
+        }
+      }
+      .second-image {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        @include mq(md) {
+          width: 50%;
+          transform: translateY(100%);
+        }
+        @include mq(sm) {
+          width: 50%;
+        }
+      }
+    }
+  }
+  .button-content {
+    width: 100%;
+    margin: 10px;
+    @include mq(sm) {
+      width: 50%;
+    }
+    .auth-button {
+      .login-button {
+        margin: 10px 0;
+        @include homeButtonCenter(rgba(50, 66, 246, 0.7));
+      }
+      .register-button {
+        margin: 10px 0;
+        @include homeButtonCenter(rgba(251, 255, 0, 0.7));
+      }
+    }
+    .start-button {
+      margin: 10px 0;
+
+      @include homeButtonCenter(rgb(255, 111, 0, 0.7));
+    }
+  }
+}
+</style>
