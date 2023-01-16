@@ -84,7 +84,7 @@
                   isSelected && nextPage();
                 "
               >
-                ホームに戻る
+                結果を見る
               </button>
               <button
                 v-else
@@ -106,14 +106,17 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
-import dummydata from "@/assets/data/dummyData.json";
 import Dummydata from "@/dummydata";
 import { useRouter } from "vue-router";
 import VIcon from "@/components/VIcon.vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: { VIcon },
   setup() {
+    const store = useStore();
+    const router = useRouter();
+
     const state: {
       isSlide: boolean;
       isTurn: boolean;
@@ -123,21 +126,18 @@ export default defineComponent({
       questionCount: number;
       isCollect: number;
       blur: string;
-      correctQuestion: number[];
-      incorrectQuestion: number[];
+      answer: number[];
     } = reactive({
       isSlide: false,
       isTurn: false,
       isSelected: false,
       interval: null,
-      data: dummydata,
-      questionCount: 0,
+      data: store.getters["question/getData"].data,
+      questionCount: store.getters["question/getData"].questionCount,
       isCollect: 4,
       blur: "blur(20px)",
-      correctQuestion: [],
-      incorrectQuestion: [],
+      answer: store.getters["question/getData"].answer,
     });
-    const router = useRouter();
 
     const doAnime = (second: 700 | 2000) => {
       if (state.isSlide == true || state.interval !== null) {
@@ -156,9 +156,12 @@ export default defineComponent({
 
     const nextPage = () => {
       if (state.questionCount == state.data.length - 1) {
-        router.push("/");
+        // router.push("/result");
+        router.push({ path: "/result" });
+        store.commit("question/resetCount");
       } else {
         state.questionCount += 1;
+        store.commit("question/incrementCount");
       }
       //初期化
       state.isSelected = false;
@@ -173,14 +176,13 @@ export default defineComponent({
       ) {
         //正解
         console.log("正解");
-        state.correctQuestion.push(state.data[state.questionCount].id);
+        store.commit("question/pushAnswer", 1);
       } else {
         //不正解
         console.log("ふ正解");
-        state.incorrectQuestion.push(state.data[state.questionCount].id);
+        store.commit("question/pushAnswer", 0);
       }
-      console.log(state.correctQuestion);
-      console.log(state.incorrectQuestion);
+
       const collectIndex = state.data[state.questionCount].choice.indexOf(
         state.data[state.questionCount].answer
       );

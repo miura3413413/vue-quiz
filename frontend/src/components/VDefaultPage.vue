@@ -45,10 +45,16 @@ export default defineComponent({
 @import "../assets/scss/_function";
 
 .home {
+  margin: 0;
+  background-image: url(../assets/image/360_F_220891203_dVsGHE3dnjyWkifJw7nyxEIJZgEh3NTW.jpeg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
   .title {
     text-align: center;
     font-family: "ZenMaru-medium";
-    margin: 10px;
+    margin: 0 10px 10px 10px;
     font-weight: bolder;
     font-size: 40px;
   }

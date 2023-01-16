@@ -45,7 +45,7 @@ export default defineComponent({
         })
         .then((response) => {
           console.log(response);
-          store.commit("setUser", response.data);
+          store.commit("user/setUser", response.data);
           router.push("/");
         })
         .catch((err) => {

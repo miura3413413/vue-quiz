@@ -1,33 +1,10 @@
 import { createStore } from 'vuex'
 
-interface State {
-  name: string;
-  id: number
-}
-
-export default createStore<State>({
-  state() {
-    return {
-      name: "",
-      id: 0
-    }
-  },
-  getters: {
-    getProperty(state) {
-      return {
-        id: state.id,
-        name: state.name
-      }
-    }
-  },
-  mutations: {
-    setUser(state, payload) {
-      state.name = payload.name
-      state.id = payload.id
-    }
-  },
-  actions: {
-  },
+import user from "./modules/user";
+import question from "./modules/question";
+export default createStore({
   modules: {
+    user,
+    question
   }
 })

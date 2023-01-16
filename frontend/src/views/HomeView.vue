@@ -16,8 +16,8 @@ export default defineComponent({
       id: number;
       name: string;
     } = reactive({
-      id: store.getters.getProperty.id,
-      name: store.getters.getProperty.name,
+      id: store.getters["user/getProperty"].id,
+      name: store.getters["user/getProperty"].name,
     });
     return { ...toRefs(state) };
   },
@@ -27,10 +27,5 @@ export default defineComponent({
 <style lang="scss">
 body {
   margin: 0;
-  background-image: url(../assets/image/99-998560_question-mark-background-vector-question-mark-quiz-background.jpeg);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
 }
 </style>
