@@ -17,6 +17,14 @@
             <h2 class="title">解説</h2>
             <h2 class="text">{{ data[questionCount].explanation }}</h2>
             <button
+              v-if="questionCount == data.length - 1"
+              class="button"
+              @click="isSelected && nextPage()"
+            >
+              結果を見る
+            </button>
+            <button
+              v-else
               class="button"
               @click="
                 doAnime(700);
@@ -77,12 +85,9 @@
                 解説
               </button>
               <button
-                v-if="questionCount == 4"
+                v-if="questionCount == data.length - 1"
                 class="button"
-                @click="
-                  isSelected && doAnime(700);
-                  isSelected && nextPage();
-                "
+                @click="isSelected && nextPage()"
               >
                 結果を見る
               </button>

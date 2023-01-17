@@ -57,7 +57,7 @@ export default defineComponent({
               password: state.password,
             })
             .then((response) => {
-              store.commit("setUser", response.data);
+              store.commit("user/setUser", response.data);
               router.push("/");
             })
             .catch((err) => {
@@ -183,8 +183,8 @@ export default defineComponent({
         color: white;
       }
       &:active {
-        opacity: 0.4;
-        color: white;
+        transform: translate(3px, 5px);
+        box-shadow: none;
       }
     }
   }

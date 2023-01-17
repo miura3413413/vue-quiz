@@ -162,13 +162,15 @@ export default defineComponent({
       font-weight: bold;
       border: none;
       cursor: pointer;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05),
+        0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1);
       &:hover {
         background-color: #03a8f4de;
         color: white;
       }
       &:active {
-        opacity: 0.4;
-        color: white;
+        transform: translate(3px, 5px);
+        box-shadow: none;
       }
     }
   }

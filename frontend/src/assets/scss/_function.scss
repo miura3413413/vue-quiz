@@ -34,20 +34,31 @@
 }
 
 @mixin homeButtonCenter($color) {
-  background-color: $color;
   backdrop-filter: blur(20px);
+  background-color: rgba(207, 234, 240, 0.3);
+  border: 3px solid $color;
   box-shadow: 0 2px 0 rgb(54, 54, 54);
-  width: 80%;
-  height: 80px;
+  width: 50%;
+  height: 70px;
+  margin-top: 20px;
   border-radius: 50px;
-  border: none;
   font-size: x-large;
   font-weight: bold;
   cursor: pointer;
   font-family: "ZenMaru-medium";
+  backdrop-filter: blur(0px);
+  transition: 0.3s;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05),
+    0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1),
+    8px 32px 32px rgba(0, 0, 0, 0.15), 8px 64px 64px rgba(0, 0, 0, 0.15);
+  &:hover {
+    background: $color;
+    color: white;
+    border-color: white;
+  }
   &:active {
     box-shadow: none;
-    transform: translateY(5px);
+    transform: translate(3px, 5px);
   }
 }
 

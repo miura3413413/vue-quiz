@@ -67,7 +67,7 @@ export default defineComponent({
     .text-content {
       width: auto;
       padding: 30px;
-      margin: 10px 5px 100px 5px;
+      margin: 10px 5px 0 5px;
       box-sizing: border-box;
       backdrop-filter: blur(20px);
       background-color: rgba(207, 234, 240, 0.3);
@@ -90,15 +90,18 @@ export default defineComponent({
       box-sizing: border-box;
 
       @include mq(md) {
-        width: 60%;
+        width: 55%;
       }
       @include mq(sm) {
         flex-direction: row;
       }
       .first-image {
         width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
+        margin: 5px;
+
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05),
+          0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1),
+          8px 32px 32px rgba(0, 0, 0, 0.15), 8px 64px 64px rgba(0, 0, 0, 0.15);
         @include mq(md) {
           width: 0;
         }
@@ -108,14 +111,17 @@ export default defineComponent({
       }
       .second-image {
         width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
+        margin: 5px;
+
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05),
+          0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1),
+          8px 32px 32px rgba(0, 0, 0, 0.15), 8px 64px 64px rgba(0, 0, 0, 0.15);
+        @include mq(sm) {
+          width: 50%;
+        }
         @include mq(md) {
           width: 50%;
           transform: translateY(100%);
-        }
-        @include mq(sm) {
-          width: 50%;
         }
       }
     }
@@ -124,22 +130,38 @@ export default defineComponent({
     width: 100%;
     margin: 10px;
     @include mq(sm) {
-      width: 50%;
+      width: 100%;
     }
+    @include mq(md) {
+      width: 600px;
+      position: absolute;
+      bottom: 0;
+    }
+
     .auth-button {
+      display: flex;
+      flex-direction: column;
       .login-button {
         margin: 10px 0;
-        @include homeButtonCenter(rgba(50, 66, 246, 0.7));
+        @include homeButtonCenter(rgba(50, 66, 246, 0.8));
       }
       .register-button {
         margin: 10px 0;
-        @include homeButtonCenter(rgba(251, 255, 0, 0.7));
+        @include homeButtonCenter(rgba(0, 238, 255, 0.8));
       }
     }
     .start-button {
       margin: 10px 0;
-
-      @include homeButtonCenter(rgb(255, 111, 0, 0.7));
+      @include homeButtonCenter(
+        linear-gradient(
+          to right,
+          rgba(50, 66, 246, 0.8),
+          rgba(0, 238, 255, 0.8)
+        )
+      );
+      &:hover {
+        border: 3px solid white;
+      }
     }
   }
 }
