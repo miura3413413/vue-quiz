@@ -256,7 +256,7 @@ body {
       }
       .circle {
         position: relative;
-        width: 40%;
+        width: 60%;
         height: 280px;
         transform-style: preserve-3d; //3d
         transform: perspective(1100px); //要素と画面の距離(手前)

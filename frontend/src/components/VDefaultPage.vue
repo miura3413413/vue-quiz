@@ -102,11 +102,21 @@ export default defineComponent({
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05),
           0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1),
           8px 32px 32px rgba(0, 0, 0, 0.15), 8px 64px 64px rgba(0, 0, 0, 0.15);
-        @include mq(md) {
-          width: 0;
-        }
         @include mq(sm) {
           width: 50%;
+          &:active {
+            transform: translateX(50%) scale(2);
+            z-index: 1;
+            transition-duration: 500ms;
+          }
+        }
+        @include mq(md) {
+          width: 50%;
+          &:active {
+            transform: translateY(100%) scale(2);
+            transition-duration: 500ms;
+            z-index: 1;
+          }
         }
       }
       .second-image {
@@ -118,10 +128,20 @@ export default defineComponent({
           8px 32px 32px rgba(0, 0, 0, 0.15), 8px 64px 64px rgba(0, 0, 0, 0.15);
         @include mq(sm) {
           width: 50%;
+          &:active {
+            transform: translateX(-50%) scale(2);
+            z-index: 1;
+            transition-duration: 500ms;
+          }
         }
         @include mq(md) {
           width: 50%;
           transform: translateY(100%);
+          &:active {
+            transform: translate(-100%, 100%) scale(2);
+            z-index: 1;
+            transition-duration: 500ms;
+          }
         }
       }
     }
@@ -159,6 +179,7 @@ export default defineComponent({
           rgba(0, 238, 255, 0.8)
         )
       );
+      border: 3px solid black;
       &:hover {
         border: 3px solid white;
       }
