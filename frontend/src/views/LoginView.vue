@@ -37,7 +37,6 @@ export default defineComponent({
     });
     const router = useRouter();
     const store = useStore();
-    console.log(process.env.VUE_APP_API_URL);
     (function () {
       store.getters["user/getProperty"].id == 0 ? null : router.go(-1);
     })();
