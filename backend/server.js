@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
-const authRoute = require("routes/auth");
+const authRoute = require("./routes/auth");
 const app = express();
 const cors = require("cors");
 

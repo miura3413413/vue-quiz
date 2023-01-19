@@ -5,7 +5,6 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: process.env.MYSQL_PASSWORD,
-  password: process.env.local.MYSQL_PASSWORD,
   database: "express_db",
 });
 
