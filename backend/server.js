@@ -8,7 +8,7 @@ const PORT = process.env.FRONT_URL || 3000;
 
 app.use(
   cors({
-    origin: `${process.env.FRONT_URL}`, //アクセス許可するオリジン
+    origin: process.env.FRONT_URL, //アクセス許可するオリジン
   })
 );
 
