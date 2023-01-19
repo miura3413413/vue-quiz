@@ -3,12 +3,13 @@ const mysql = require("mysql");
 const authRoute = require("./routes/auth");
 const app = express();
 const cors = require("cors");
+require("dotenv").config();
 
 const PORT = 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:8080", //アクセス許可するオリジン
+    origin: process.env.FRONT_URL, //アクセス許可するオリジン
   })
 );
 

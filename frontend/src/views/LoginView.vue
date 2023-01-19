@@ -37,14 +37,14 @@ export default defineComponent({
     });
     const router = useRouter();
     const store = useStore();
-
+    console.log(process.env.VUE_APP_API_URL);
     (function () {
       store.getters["user/getProperty"].id == 0 ? null : router.go(-1);
     })();
 
     const login = () => {
       axios
-        .post("http://localhost:3000/api/auth/login", {
+        .post(`${process.env.VUE_APP_API_URL}api/auth/login`, {
           email: state.email,
           password: state.password,
         })
