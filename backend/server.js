@@ -29,6 +29,7 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use("/api/auth", authRoute);
 
+module.exports = app;
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", req.headers.origin);
 //   res.header(
