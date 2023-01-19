@@ -39,7 +39,6 @@ export default defineComponent({
     const store = useStore();
 
     (function () {
-      console.log("called");
       store.getters["user/getProperty"].id == 0 ? null : router.go(-1);
     })();
 
