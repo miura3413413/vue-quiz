@@ -12,13 +12,13 @@ app.use(
   })
 );
 
-// app.listen(PORT, () => console.log("サーバーが起動しました"));
-// const con = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: process.env.MYSQL_PASSWORD,
-//   database: "express_db",
-// });
+app.listen(PORT, () => console.log("サーバーが起動しました"));
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: process.env.MYSQL_PASSWORD,
+  database: "express_db",
+});
 
 //登録
 
