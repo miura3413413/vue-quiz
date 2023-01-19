@@ -20,6 +20,10 @@ const con = mysql.createConnection({
   database: "express_db",
 });
 
+app.get("/", (req, res) => {
+  res.send("Hey this is my API running 🥳");
+});
+
 //登録
 
 app.use(express.json());
