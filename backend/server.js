@@ -12,10 +12,6 @@ app.use(
   })
 );
 
-app.use("/", (req, res) => {
-  res.json({ message: "hello" });
-});
-
 app.listen(PORT, () => console.log("サーバーが起動しました"));
 const con = mysql.createConnection({
   host: "localhost",
