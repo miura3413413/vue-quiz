@@ -37,6 +37,12 @@ export default defineComponent({
     });
     const router = useRouter();
     const store = useStore();
+
+    (function () {
+      console.log("called");
+      store.getters["user/getProperty"].id == 0 ? null : router.go(-1);
+    })();
+
     const login = () => {
       axios
         .post("http://localhost:3000/api/auth/login", {

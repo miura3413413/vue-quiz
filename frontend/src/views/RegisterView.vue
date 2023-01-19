@@ -43,6 +43,12 @@ export default defineComponent({
     });
     const router = useRouter();
     const store = useStore();
+    (function () {
+      store.getters["user/getProperty"].id == 0 ? null : router.go(-1);
+    })();
+    (function () {
+      store.getters["user/getProperty"].id == 0 ? null : router.go(-1);
+    })();
     const register = () => {
       axios
         .post("http://localhost:3000/api/auth/register", {

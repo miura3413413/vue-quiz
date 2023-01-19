@@ -1,6 +1,7 @@
 <template>
-  <VDefaultPage v-if="id == 0"></VDefaultPage>
-  <VUserPage v-else></VUserPage>
+  <!-- <VDefaultPage v-if="id == 0"></VDefaultPage> -->
+  <!-- <VUserPage v-else></VUserPage> -->
+  <VUserPage></VUserPage>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
@@ -8,7 +9,8 @@ import VDefaultPage from "@/components/VDefaultPage.vue";
 import VUserPage from "@/components/VUserPage.vue";
 import { useStore } from "vuex";
 export default defineComponent({
-  components: { VDefaultPage, VUserPage },
+  components: { VUserPage },
+  // components: { VDefaultPage, VUserPage },
 
   setup() {
     const store = useStore();
