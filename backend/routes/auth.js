@@ -54,7 +54,8 @@ router.post("/login", async (req, res) => {
         return res.status(500).json("パスワードが違います");
       }
     } catch (err) {
-      return res.status(500).json("メールアドレスが違います");
+      // return res.status(500).json("メールアドレスが違います");
+      return res.status(500).json(err);
     }
   });
 });
