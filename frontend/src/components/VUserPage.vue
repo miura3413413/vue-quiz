@@ -56,6 +56,10 @@ export default defineComponent({
       linear-gradient(to right, rgba(50, 66, 246, 0.8), rgba(0, 238, 255, 0.8))
     );
     border: 3px solid black;
+    max-width: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     &:hover {
       border: 3px solid white;
     }
