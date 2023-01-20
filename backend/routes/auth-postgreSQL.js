@@ -24,28 +24,28 @@ router.post("/register", async (req, res) => {
         text: "INSERT INTO users(name,email,password) VALUES($1, $2, $3)",
         values: [req.body.name, req.body.email, req.body.password],
       };
-
-      client.connect(function (err) {
-        if (err) throw err;
-        console.log("Connected");
-      });
-
-      client.query(query, function (err, result, fields) {
-        console.log("called");
+      pool.connect(function (err, client, done) {
         if (err) {
-          if (err.code == "ER_DUP_ENTRY" || err.errno == 1062) {
-            return res
-              .status(500)
-              .json("すでにそのメールアドレスで登録しています");
-          } else if (err.code == "ER_BAD_NULL_ERROR") {
-            return res.status(500).json(err.sqlMessage);
-          } else {
-            console.log(err);
-            return res.status(500).json("何かのエラーがあります");
-          }
-        } else {
-          return res.status(200).json("成功");
+          return console.error("connexion error", err);
         }
+        client.query(query, function (err, result, fields) {
+          done();
+          console.log("called");
+          if (err) {
+            if (err.code == "ER_DUP_ENTRY" || err.errno == 1062) {
+              return res
+                .status(500)
+                .json("すでにそのメールアドレスで登録しています");
+            } else if (err.code == "ER_BAD_NULL_ERROR") {
+              return res.status(500).json(err.sqlMessage);
+            } else {
+              console.log(err);
+              return res.status(500).json("何かのエラーがあります");
+            }
+          } else {
+            return res.status(200).json("成功");
+          }
+        });
       });
     }
   } catch (err) {
