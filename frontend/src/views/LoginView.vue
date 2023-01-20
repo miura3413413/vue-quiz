@@ -43,8 +43,8 @@ export default defineComponent({
 
     const login = () => {
       axios
-        // .post(`${process.env.VUE_APP_API_URL}/api/auth/login`, {
-        .post(`http://localhost:3001/api/auth/login`, {
+        .post(`${process.env.VUE_APP_API_URL}/api/auth/login`, {
+          // .post(`http://localhost:3001/api/auth/login`, {
           email: state.email,
           password: state.password,
         })
