@@ -26,6 +26,7 @@ app.use(
 //     origin: "http://localhost:8080",
 //   })
 // );
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
@@ -49,7 +50,6 @@ app.post("/api/auth/login", async (req, res) => {
   });
 });
 
-app.use(express.json());
 // app.use("/api/auth", authRoute);
 
 app.listen(PORT, () => console.log("サーバーが起動しました", PORT));
