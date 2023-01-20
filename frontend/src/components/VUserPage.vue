@@ -1,6 +1,6 @@
 <template>
   <div class="user-page">
-    <h1 class="message">こんにちは</h1>
+    <h1 class="message">こんにちは {{ name }}さん</h1>
     <div class="charts">
       <VWeekData></VWeekData>
       <VWeekData></VWeekData>
@@ -13,11 +13,15 @@
 import { defineComponent, reactive, toRefs } from "vue";
 import VWeekData from "@/components/VWeekData.vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 export default defineComponent({
   components: { VWeekData },
   setup() {
-    const state = reactive({
-      text: "Have a good day!",
+    const store = useStore();
+    const state: {
+      name: string;
+    } = reactive({
+      name: store.getters["user/getProperty"].name,
     });
     const router = useRouter();
     const route = () => {
@@ -40,6 +44,7 @@ export default defineComponent({
   .message {
     margin: 0;
     text-align: center;
+    padding-top: 10px;
   }
   .charts {
     display: flex;

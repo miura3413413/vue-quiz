@@ -21,6 +21,7 @@ router.post("/register", async (req, res) => {
       return res.status(500).json("5文字以上のパスワードを入力してください");
     } else {
       const query = {
+        //プレースホルダを使用(SQLインジェクションの対策)
         text: "INSERT INTO users(name,email,password) VALUES($1, $2, $3)",
         values: [req.body.name, req.body.email, req.body.password],
       };
@@ -60,12 +61,6 @@ router.post("/login", async (req, res) => {
     values: [req.body.email],
   };
 
-  // const sql = "SELECT id, password, name  FROM users WHERE email = $1";
-  // const params = req.body.email;
-  // client.connect(function (err) {
-  //   if (err) throw err;
-  //   console.log("Connected");
-  // });
   pool.connect(function (err, client, done) {
     if (err) {
       return console.error("connexion error", err);

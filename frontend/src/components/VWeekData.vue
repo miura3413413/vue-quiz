@@ -32,13 +32,52 @@ export default defineComponent({
 
     const options = {
       responsive: true,
+      chartArea: {
+        backgroundColor: "white",
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          ticks: {
+            color: "black",
+            font: {
+              size: 16,
+            },
+          },
+          grid: {
+            color: "black",
+          },
+        },
+        x: {
+          ticks: {
+            color: "black",
+            font: {
+              size: 16,
+            },
+          },
+          grid: {
+            color: "black",
+          },
+        },
+      },
+
       plugins: {
+        customCanvasBackgroundColor: {
+          color: "black",
+        },
         legend: {
           display: false,
         },
         title: {
           display: true,
-          text: "Chart.js Doughnut Chart",
+          text: "今週解いた問題数",
+          font: { weight: "bold", size: 16 },
+          padding: {
+            top: 10,
+            bottom: 30,
+          },
+          color: "black",
         },
       },
     };
@@ -57,5 +96,9 @@ export default defineComponent({
     width: 50%;
     margin: 50px;
   }
+  background-color: rgba(68, 219, 219, 0.127); /* 背景色 */
+  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  padding: 10px;
 }
 </style>
