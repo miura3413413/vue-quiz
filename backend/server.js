@@ -45,6 +45,7 @@ app.post("/api/auth/login", async (req, res) => {
       }
     } catch (err) {
       // return res.status(500).json("メールアドレスが違います");
+      console.log(err);
       return res.status(500).json(err);
     }
   });
