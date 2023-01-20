@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
 
-app.post("/auth/api/login", async (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   const sql = "SELECT id, password, name  FROM users WHERE email = ?";
   const params = req.body.email;
   con.query(sql, params, function (err, result, fields) {
