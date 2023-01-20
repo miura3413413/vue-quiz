@@ -1,6 +1,7 @@
 const { Client } = require("pg");
 const router = require("express").Router();
 require("dotenv").config();
+
 const client = new Client({
   user: "vue_db_user",
   host: process.env.PG_HOST,
@@ -12,11 +13,10 @@ const client = new Client({
 
 //登録
 router.post("/register", async (req, res) => {
-  console.log(req.body);
   const regex =
     /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*.)+[a-zA-Z]{2,}$/;
   try {
-    if (!regex.test(req.body.email)) {
+    if (regex.test(req.body.email) == false) {
       return res.status(500).json("メールアドレスの形式が違います");
     } else if (req.body.password.length < 5) {
       return res.status(500).json("5文字以上のパスワードを入力してください");
@@ -32,6 +32,7 @@ router.post("/register", async (req, res) => {
       });
 
       client.query(query, function (err, result, fields) {
+        console.log("called");
         if (err) {
           if (err.code == "ER_DUP_ENTRY" || err.errno == 1062) {
             return res
@@ -62,7 +63,6 @@ router.post("/login", async (req, res) => {
 
   // const sql = "SELECT id, password, name  FROM users WHERE email = $1";
   // const params = req.body.email;
-
   client.connect(function (err) {
     if (err) throw err;
     console.log("Connected");
@@ -71,8 +71,9 @@ router.post("/login", async (req, res) => {
   client.query(query, function (err, result, fields) {
     console.log(result);
     try {
-      const password = result.rows[0].password;
-      if (password == req.body.password) {
+      if (result.rows[0] == null) {
+        return res.status(500).json("メールアドレスが違います");
+      } else if (result.rows[0].password == req.body.password) {
         return res
           .status(200)
           .json({ id: result.rows[0].id, name: result.rows[0].name });
@@ -81,7 +82,7 @@ router.post("/login", async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      return res.status(500).json("メールアドレスが違います");
+      return res.status(500).json("サーバーエラー");
     }
   });
 });

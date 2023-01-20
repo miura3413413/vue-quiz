@@ -5,7 +5,6 @@ const authRoute = require("./routes/auth-postgreSQL");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
-const { Client } = require("pg");
 
 // const PORT = 3001;
 const PORT = process.env.PORT || 3001;
