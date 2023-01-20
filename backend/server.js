@@ -1,20 +1,14 @@
 const express = require("express");
-const mysql = require("mysql");
-const authRoute = require("./routes/auth");
+// const mysql = require("mysql");
+const authRoute = require("./routes/auth-postgreSQL");
+// const authRoute = require("./routes/auth");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
-
-const PORT = process.env.PORT || 3001;
-
-const con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: process.env.MYSQL_PASSWORD,
-  database: "express_db",
-});
+const { Client } = require("pg");
 
 // const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
