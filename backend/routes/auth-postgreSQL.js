@@ -1,8 +1,7 @@
-const { Client } = require("pg");
 const router = require("express").Router();
 require("dotenv").config();
-
-const client = new Client({
+const { Pool } = require("pg");
+const pool = new Pool({
   user: "vue_db_user",
   host: process.env.PG_HOST,
   database: "vue_db",
@@ -63,27 +62,31 @@ router.post("/login", async (req, res) => {
 
   // const sql = "SELECT id, password, name  FROM users WHERE email = $1";
   // const params = req.body.email;
-  client.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected");
-  });
-
-  client.query(query, function (err, result, fields) {
-    console.log(result);
-    try {
-      if (result.rows[0] == null) {
-        return res.status(500).json("メールアドレスが違います");
-      } else if (result.rows[0].password == req.body.password) {
-        return res
-          .status(200)
-          .json({ id: result.rows[0].id, name: result.rows[0].name });
-      } else {
-        return res.status(500).json("パスワードが違います");
-      }
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json("サーバーエラー");
+  // client.connect(function (err) {
+  //   if (err) throw err;
+  //   console.log("Connected");
+  // });
+  pool.connect(function (err, client, done) {
+    if (err) {
+      return console.error("connexion error", err);
     }
+    client.query(query, function (err, result, fields) {
+      done();
+      try {
+        if (result.rows[0] == null) {
+          return res.status(500).json("メールアドレスが違います");
+        } else if (result.rows[0].password == req.body.password) {
+          return res
+            .status(200)
+            .json({ id: result.rows[0].id, name: result.rows[0].name });
+        } else {
+          return res.status(500).json("パスワードが違います");
+        }
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json("サーバーエラー");
+      }
+    });
   });
 });
 module.exports = router;
