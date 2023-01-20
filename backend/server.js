@@ -37,6 +37,7 @@ app.post("/api/auth/login", async (req, res) => {
   const params = req.body.email;
   con.query(sql, params, function (err, result, fields) {
     try {
+      console.log(result);
       const password = result[0].password;
       if (password == req.body.password) {
         return res.status(200).json({ id: result[0].id, name: result[0].name });
