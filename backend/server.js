@@ -12,14 +12,6 @@ app.use(
   })
 );
 
-app.listen(PORT, () => console.log("サーバーが起動しました"));
-const con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: process.env.MYSQL_PASSWORD,
-  database: "express_db",
-});
-
 app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
@@ -29,7 +21,8 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use("/api/auth", authRoute);
 
-module.exports = app;
+app.listen(PORT, () => console.log("サーバーが起動しました"));
+
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", req.headers.origin);
 //   res.header(
