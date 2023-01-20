@@ -26,32 +26,12 @@ app.use(
 //     origin: "http://localhost:8080",
 //   })
 // );
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
 
-app.post("/api/auth/login", async (req, res) => {
-  const sql = "SELECT id, password, name  FROM users WHERE email = ?";
-  const params = req.body.email;
-  con.query(sql, params, function (err, result, fields) {
-    try {
-      console.log(result);
-      const password = result[0].password;
-      if (password == req.body.password) {
-        return res.status(200).json({ id: result[0].id, name: result[0].name });
-      } else {
-        return res.status(500).json("パスワードが違います");
-      }
-    } catch (err) {
-      // return res.status(500).json("メールアドレスが違います");
-      console.log(err);
-      return res.status(500).json(err);
-    }
-  });
-});
-
-// app.use("/api/auth", authRoute);
+app.use(express.json());
+app.use("/api/auth", authRoute);
 
 app.listen(PORT, () => console.log("サーバーが起動しました", PORT));

@@ -46,6 +46,7 @@ router.post("/login", async (req, res) => {
   const sql = "SELECT id, password, name  FROM users WHERE email = ?";
   const params = req.body.email;
   con.query(sql, params, function (err, result, fields) {
+    console.log(result);
     try {
       const password = result[0].password;
       if (password == req.body.password) {
@@ -54,8 +55,8 @@ router.post("/login", async (req, res) => {
         return res.status(500).json("パスワードが違います");
       }
     } catch (err) {
-      // return res.status(500).json("メールアドレスが違います");
-      return res.status(500).json(err);
+      console.log(err);
+      return res.status(500).json("メールアドレスが違います");
     }
   });
 });
