@@ -3,8 +3,10 @@ const mysql = require("mysql");
 const authRoute = require("./routes/auth");
 const app = express();
 const cors = require("cors");
+require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
+
 // const PORT = 3001;
 
 app.use(
