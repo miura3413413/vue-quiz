@@ -34,7 +34,6 @@ const mutations = {
     state.questionCount = 0
   },
   pushAnswer(state: State, payload: number) {
-    console.log("called")
     console.log(state.answer)
     state.answer.push(payload)
   },

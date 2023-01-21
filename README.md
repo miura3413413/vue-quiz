@@ -1,24 +1,25 @@
-# practice-vue
+##　クイズアプリ
 
-## Project setup
-```
-npm install
-```
+## 使用技術
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+・Vue.js
+・Express
+・MySQL
+・SCSS
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## 機能
 
-### Lints and fixes files
-```
-npm run lint
-```
+・クイズ
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+・ユーザー登録、ログイン機能
+
+・データ集計
+
+## 参考にした動画
+
+・https://www.youtube.com/watch?v=j1-Ak3WWV_g
+・https://www.youtube.com/watch?v=UJvL4i6UPbY
+
+## URL
+
+https://vue-quiz-ten.vercel.app

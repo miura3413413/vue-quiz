@@ -19,17 +19,17 @@
 
 @mixin quizButtonCenter($height, $width, $fontSize) {
   background-color: white;
-  box-shadow: 0 2px 0 rgb(54, 54, 54);
+  box-shadow: 0 1.5px 0 rgba(54, 54, 54);
   height: $height;
   width: $width;
   border-radius: 50px;
-  border: none;
+  border: 1px solid;
   font-size: $fontSize;
   cursor: pointer;
   font-family: "ZenMaru-medium";
   &:active {
     box-shadow: none;
-    transform: translateY(5px);
+    transform: translateY(1.5px);
   }
 }
 

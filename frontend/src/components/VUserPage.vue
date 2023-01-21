@@ -3,7 +3,7 @@
     <h1 class="message">こんにちは {{ name }}さん</h1>
     <div class="charts">
       <VWeekData></VWeekData>
-      <VWeekData></VWeekData>
+      <WrongData></WrongData>
     </div>
     <button class="button" @click="route">スタート</button>
   </div>
@@ -12,10 +12,11 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
 import VWeekData from "@/components/VWeekData.vue";
+import WrongData from "@/components/VWrongData.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 export default defineComponent({
-  components: { VWeekData },
+  components: { VWeekData, WrongData },
   setup() {
     const store = useStore();
     const state: {

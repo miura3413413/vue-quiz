@@ -115,6 +115,7 @@ import Dummydata from "@/dummydata";
 import { useRouter } from "vue-router";
 import VIcon from "@/components/VIcon.vue";
 import { useStore } from "vuex";
+import axios from "axios";
 
 export default defineComponent({
   components: { VIcon },
@@ -132,6 +133,7 @@ export default defineComponent({
       isCollect: number;
       blur: string;
       answer: number[];
+      id: number;
     } = reactive({
       isSlide: false,
       isTurn: false,
@@ -142,6 +144,7 @@ export default defineComponent({
       isCollect: 4,
       blur: "blur(20px)",
       answer: store.getters["question/getData"].answer,
+      id: store.getters["user/getProperty"].id,
     });
 
     const doAnime = (second: 700 | 2000) => {
@@ -161,9 +164,23 @@ export default defineComponent({
 
     const nextPage = () => {
       if (state.questionCount == state.data.length - 1) {
-        // router.push("/result");
-        router.push({ path: "/result" });
+        //解いた問題数を登録する
+        if (state.id != 0) {
+          axios
+            // .post(`http://localhost:3001/api/set_data/solved`, {
+            .post(`${process.env.VUE_APP_API_URL}/api/set_data/solved`, {
+              id: state.id,
+              solved: state.questionCount + 1,
+            })
+            .then((response) => {
+              console.log("成功");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         store.commit("question/resetCount");
+        router.push("/result");
       } else {
         state.questionCount += 1;
         store.commit("question/incrementCount");
@@ -238,7 +255,7 @@ body {
   .quiz {
     height: 100vh;
     min-height: 600px;
-    background-image: url(../assets/image/hatena37-.png);
+    background-image: url(../assets/image/hatena35.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -289,7 +306,8 @@ body {
             background-color: white;
             border-radius: 10px;
             backdrop-filter: blur(20px);
-            background-color: rgba(0, 191, 255, 0.419);
+            background-color: rgba(255, 255, 255, 0.634);
+
             box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
             border: 2px rgba(255, 255, 255, 0.4) solid;
             border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
@@ -309,7 +327,7 @@ body {
             position: relative;
             border: 1px solid;
             border-radius: 10px;
-            background-color: rgba(255, 249, 243, 0.419);
+            background-color: rgba(255, 255, 255, 0.789);
             box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
             border: 2px rgba(255, 255, 255, 0.4) solid;
             border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
@@ -352,7 +370,7 @@ body {
             position: relative;
             border-radius: 10px;
             backdrop-filter: v-bind(blur);
-            background-color: rgba(0, 191, 255, 0.419);
+            background-color: rgba(255, 255, 255, 0.634);
             box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
             border: 2px rgba(255, 255, 255, 0.4) solid;
             border-bottom: 2px rgba(40, 40, 40, 0.35) solid;

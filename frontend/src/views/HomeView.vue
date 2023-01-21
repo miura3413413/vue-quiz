@@ -1,6 +1,6 @@
 <template>
-  <!-- <VDefaultPage v-if="id == 0"></VDefaultPage> -->
-  <!-- <VUserPage v-else></VUserPage> -->
+  <!-- <VDefaultPage v-if="id == 0"></VDefaultPage>
+  <VUserPage v-else></VUserPage> -->
   <VUserPage></VUserPage>
 </template>
 <script lang="ts">

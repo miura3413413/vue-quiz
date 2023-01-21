@@ -13,19 +13,11 @@ export default defineComponent({
   setup() {
     Chart.register(...registerables);
     const testData = {
-      labels: ["月", "火", "水", "木", "金", "土", "日"],
+      labels: ["1", "2", "3", "4", "5", "7", "8", "9", "10"],
       datasets: [
         {
-          data: [30, 40, 60, 70, 5, 0, 10],
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.8)",
-            "rgba(54, 162, 235, 0.8)",
-            "rgba(255, 206, 86, 0.8)",
-            "rgba(75, 192, 192, 0.8)",
-            "rgba(153, 102, 255, 0.8)",
-            "rgba(255, 159, 64, 0.8)",
-            "rgba(142, 255, 29,0.8)",
-          ],
+          data: [30, 40, 60, 70, 5],
+          backgroundColor: ["rgba(5, 52, 52, 0.5)"],
         },
       ],
     };
@@ -35,15 +27,13 @@ export default defineComponent({
       chartArea: {
         backgroundColor: "white",
       },
+      indexAxis: "y",
       scales: {
         y: {
           min: 0,
           max: 100,
           ticks: {
             color: "black",
-            font: {
-              size: 16,
-            },
           },
           grid: {
             color: "black",
@@ -52,9 +42,6 @@ export default defineComponent({
         x: {
           ticks: {
             color: "black",
-            font: {
-              size: 16,
-            },
           },
           grid: {
             color: "black",
@@ -71,7 +58,7 @@ export default defineComponent({
         },
         title: {
           display: true,
-          text: "今週解いた問題数",
+          text: "間違えた問題",
           font: { weight: "bold", size: 16 },
           padding: {
             top: 15,
