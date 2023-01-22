@@ -51,14 +51,14 @@ export default defineComponent({
     })();
     const register = () => {
       axios
-        .post(`${process.env.VUE_APP_API_URL}api/auth/register`, {
+        .post(`${process.env.VUE_APP_API_URL}/api/auth/register`, {
           name: state.name,
           email: state.email,
           password: state.password,
         })
         .then(() => {
           axios
-            .post(`${process.env.VUE_APP_API_URL}api/auth/login`, {
+            .post(`${process.env.VUE_APP_API_URL}/api/auth/login`, {
               email: state.email,
               password: state.password,
             })
