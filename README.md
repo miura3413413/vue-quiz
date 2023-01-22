@@ -17,7 +17,7 @@
 
 ## 参考にした動画
 
-・https://www.youtube.com/watch?v=j1-Ak3WWV_g
+・https://www.youtube.com/watch?v=j1-Ak3WWV_g<br>
 ・https://www.youtube.com/watch?v=UJvL4i6UPbY
 
 ## URL
